@@ -52,7 +52,7 @@ services:
                 -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
                 -Dauthentication.chain=identity-service1:identity-service
                 -Didentity-service.enable-basic-auth=true
-                -Didentity-service.auth-server-url=http://${HOST_IP}:8999
+                -Didentity-service.auth-server-url=http://${IDENTITY_SERVER_NAME}:8999
                 -Didentity-service.realm=alfresco
                 -Didentity-service.resource=alfresco
               '
@@ -130,7 +130,7 @@ services:
           - KEYCLOAK_ADMIN_PASSWORD=admin
           - DB_VENDOR=h2
         command: "
-            start --import-realm --hostname=$HOST_IP --hostname-port=8999 --http-enabled=true --hostname-strict-https=false
+            start --import-realm --hostname=$IDENTITY_SERVER_NAME --hostname-port=8999 --http-enabled=true --hostname-strict-https=false
           "
         volumes:
           - ./config/alfresco-realm.json:/opt/keycloak/data/import/alfresco-realm.json
