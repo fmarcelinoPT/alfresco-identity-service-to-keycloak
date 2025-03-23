@@ -68,6 +68,31 @@ Both Docker Compose templates ([alfresco-community-aims](alfresco-community-aims
 * `config/nginx.conf` includes configuration for the NGINX Web Proxy
 * `.env` includes Docker Image tag names and a HOST_IP variable (remember to add your local computer IP to this property before running the project)
 
+**alfresco-community-keycloak-ui**
+
+The difference with the previous `compose.yaml` is that the UI applications (Share and ACA) are also configured to use Keycloak authentication.
+
+Docker Compose template include following files:
+
+```
+.
+├── .env
+├── config
+│   ├── alfresco-realm.json
+│   └── nginx.conf
+└── compose.yaml
+```
+
+* `docker-compose.yml` is a regular ACS Docker Compose, including Alfresco Identity Service or Keycloak for Authentication
+* `config/alfresco-realm.json` includes a sample configuration for Alfresco Identity Service or Keycloak, despite you can create your own configuration using the Keycloak Admin Web Page
+* `config/nginx.conf` includes configuration for the NGINX Web Proxy
+* `.env` includes Docker Image tag names and a HOST_IP variable (remember to add your local computer IP to this property before running the project)
+
+>> Note that service urls are different from the previous ones, they are described in section "Service URLs for UIs"
+
+>> In addition, from ACA 4.4.x, Keycloak urls are required to use HTTPs. This is why ACA 4.3.0 is used in the sample.
+
+
 ## Using
 
 >> Note: Add your local computer IP to `.env` variable HOST_IP before running Docker Compose.
@@ -123,6 +148,54 @@ Groups
 * admin
 * testgroup
 
+
+## Service URLs for UIs
+
+http://localhost:8080/content-app/
+
+ACA
+
+* user: admin
+* password: admin
+
+http://localhost:8080/share
+
+Share
+
+* user: admin
+* password: admin
+
+http://localhost:8080/alfresco
+
+Alfresco Repository
+
+* user: admin
+* password: admin
+
+http://${HOST_IP}:8080
+
+Keycloak
+
+* user: admin
+* password: admin
+
+**Default configuration for Alfresco Identity Service or Keycloak**
+
+Users
+
+* admin / admin
+* test / admin
+
+Roles
+* test_role
+* default-roles-alfresco
+
+Groups
+
+* admin
+* testgroup
+
+
 ## Additional resources
 
 Additional information on Alfresco Identity Service configuration is available in <https://docs.alfresco.com/identity-service/latest/>
@@ -145,6 +218,36 @@ identity-service.credentials.provider=
 ```
 
 Tutorials on how to configure different Authentication Subsystems are available in:
+=======
+These are the properties available for Share Web App ([`share-config.properties`](https://github.com/Alfresco/alfresco-community-share/blob/release/23.2/share/src/main/resources/share-config.properties)):
+
+```
+aims.enabled=false
+aims.realm=
+aims.resource=
+aims.authServerUrl=
+aims.sslRequired=external
+aims.publicClient=true
+aims.autodetectBearerOnly=
+aims.alwaysRefreshToken=
+aims.principalAttribute=sub
+aims.enableBasicAuth=
+aims.secret=
+```
+
+And for the Alfresco Content Application, use following [environment variables](https://github.com/Alfresco/alfresco-content-app/blob/4.3.0/docs/getting-started/docker.md?plain=1#L74):
+
+```
+APP_CONFIG_OAUTH2_HOST                      
+APP_CONFIG_OAUTH2_CLIENTID                  
+APP_CONFIG_OAUTH2_IMPLICIT_FLOW             
+APP_CONFIG_OAUTH2_SILENT_LOGIN              
+APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI
+APP_CONFIG_OAUTH2_REDIRECT_LOGIN            
+APP_CONFIG_OAUTH2_REDIRECT_LOGOUT           
+```
+
+Tutorials on how to configure different Authetication Subsystems are available in:
 
 * <https://docs.alfresco.com/identity-service/latest/tutorial/sso/saml/>
 * <https://docs.alfresco.com/identity-service/latest/tutorial/sso/ldap/>
