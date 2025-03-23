@@ -1298,7 +1298,7 @@
     {
       "id": "affb11d0-0542-4824-a433-a41e90295ec1",
       "alias": "Verify Existing Account by Re-authentication",
-      "description": "Reauthentication of existing account",
+      "description": "Re-authentication of existing account",
       "providerId": "basic-flow",
       "topLevel": false,
       "builtIn": true,
